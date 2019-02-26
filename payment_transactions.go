@@ -11,6 +11,7 @@ func (tranx NewTransaction) Charge() (*TransactionResponse, error) {
 		Amount:          tranx.Amount,
 		Payment: &Payment{
 			CreditCard: tranx.CreditCard,
+			OpaqueData: tranx.OpaqueData,
 		},
 		BillTo:   tranx.BillTo,
 		AuthCode: tranx.AuthCode,
@@ -42,8 +43,10 @@ func (tranx NewTransaction) AuthOnly() (*TransactionResponse, error) {
 		Amount:          tranx.Amount,
 		Payment: &Payment{
 			CreditCard: tranx.CreditCard,
+			OpaqueData: tranx.OpaqueData,
 		},
 	}
+
 	response, err := SendTransactionRequest(new)
 	return response, err
 }
@@ -114,7 +117,9 @@ func SendTransactionRequest(input TransactionRequest) (*TransactionResponse, err
 			TransactionRequest:     input,
 		},
 	}
+
 	jsoned, err := json.Marshal(action)
+
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +136,8 @@ type NewTransaction struct {
 	Amount     string     `json:"amount,omitempty"`
 	InvoiceId  string     `json:"invoiceId,omitempty"`
 	RefTransId string     `json:"refTransId,omitempty"`
-	CreditCard CreditCard `json:"payment,omitempty"`
+	CreditCard *CreditCard `json:"payment,omitempty"`
+	OpaqueData *OpaqueData `json:"payment,omitempty"`
 	AuthCode   string     `json:"authCode,omitempty"`
 	BillTo     *BillTo    `json:"omitempty"`
 }
@@ -195,13 +201,19 @@ type CreateTransactionRequest struct {
 }
 
 type Payment struct {
-	CreditCard CreditCard `json:"creditCard,omitempty"`
+	CreditCard *CreditCard `json:"creditCard,omitempty"`
+	OpaqueData *OpaqueData `json:"opaqueData,omitempty"`
 }
 
 type CreditCard struct {
 	CardNumber     string `json:"cardNumber,omitempty"`
 	ExpirationDate string `json:"expirationDate,omitempty"`
 	CardCode       string `json:"cardCode,omitempty"`
+}
+
+type OpaqueData struct {
+	DataDescriptor     string `json:"dataDescriptor,omitempty"`
+	DataValue     string `json:"dataValue,omitempty"`
 }
 
 type LineItems struct {
