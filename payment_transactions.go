@@ -9,10 +9,11 @@ func (tranx NewTransaction) Charge() (*TransactionResponse, error) {
 	new = TransactionRequest{
 		TransactionType: "authCaptureTransaction",
 		Amount:          tranx.Amount,
-		Payment: &Payment{
-			CreditCard: tranx.CreditCard,
-			OpaqueData: tranx.OpaqueData,
-		},
+		// Payment: &Payment{
+		// 	CreditCard: tranx.CreditCard,
+		// 	OpaqueData: tranx.OpaqueData,
+		// },
+		Payment: tranx.Payment,
 		BillTo:   tranx.BillTo,
 		AuthCode: tranx.AuthCode,
 	}
@@ -41,10 +42,11 @@ func (tranx NewTransaction) AuthOnly() (*TransactionResponse, error) {
 	new = TransactionRequest{
 		TransactionType: "authOnlyTransaction",
 		Amount:          tranx.Amount,
-		Payment: &Payment{
-			CreditCard: tranx.CreditCard,
-			OpaqueData: tranx.OpaqueData,
-		},
+		Payment: tranx.Payment,
+		// Payment: &Payment{
+		// 	CreditCard: tranx.CreditCard,
+		// 	OpaqueData: tranx.OpaqueData,
+		// },
 	}
 
 	response, err := SendTransactionRequest(new)
@@ -57,6 +59,7 @@ func (tranx NewTransaction) Refund() (*TransactionResponse, error) {
 		TransactionType: "refundTransaction",
 		Amount:          tranx.Amount,
 		RefTransId:      tranx.RefTransId,
+		Payment: tranx.Payment,
 	}
 	response, err := SendTransactionRequest(new)
 	return response, err
@@ -136,8 +139,9 @@ type NewTransaction struct {
 	Amount     string     `json:"amount,omitempty"`
 	InvoiceId  string     `json:"invoiceId,omitempty"`
 	RefTransId string     `json:"refTransId,omitempty"`
-	CreditCard *CreditCard `json:"payment,omitempty"`
-	OpaqueData *OpaqueData `json:"payment,omitempty"`
+	Payment *Payment `json:"payment,omitempty"`
+	// CreditCard *CreditCard `json:"payment,omitempty"`
+	// OpaqueData *OpaqueData `json:"payment,omitempty"`
 	AuthCode   string     `json:"authCode,omitempty"`
 	BillTo     *BillTo    `json:"omitempty"`
 }

@@ -253,6 +253,7 @@ type FullTransaction struct {
 			EcheckTypeSpecified  bool        `json:"echeckTypeSpecified"`
 			BankName             interface{} `json:"bankName"`
 		} `json:"bankAccount"`
+		CreditCard CreditCard `json:"creditCard"`
 	} `json:"payment"`
 	RecurringBilling          bool `json:"recurringBilling"`
 	RecurringBillingSpecified bool `json:"recurringBillingSpecified"`
