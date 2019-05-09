@@ -8,13 +8,19 @@ func (tranx NewTransaction) Charge() (*TransactionResponse, error) {
 	var new TransactionRequest
 	new = TransactionRequest{
 		TransactionType: "authCaptureTransaction",
-		Amount:          tranx.Amount,
+		Amount: tranx.Amount,
 		// Payment: &Payment{
 		// 	CreditCard: tranx.CreditCard,
 		// 	OpaqueData: tranx.OpaqueData,
 		// },
 		Payment: tranx.Payment,
-		BillTo:   tranx.BillTo,
+		BillTo: tranx.BillTo,
+		Order: tranx.Order,
+		LineItems: tranx.LineItems,
+		Tax: tranx.Tax,
+		Shipping: tranx.Shipping,
+		Customer: tranx.Customer,
+		ShipTo: tranx.ShipTo,
 		AuthCode: tranx.AuthCode,
 	}
 	response, err := SendTransactionRequest(new)
@@ -136,14 +142,20 @@ func SendTransactionRequest(input TransactionRequest) (*TransactionResponse, err
 }
 
 type NewTransaction struct {
-	Amount     string     `json:"amount,omitempty"`
-	InvoiceId  string     `json:"invoiceId,omitempty"`
-	RefTransId string     `json:"refTransId,omitempty"`
+	Amount string `json:"amount,omitempty"`
+	InvoiceId string `json:"invoiceId,omitempty"`
+	RefTransId string `json:"refTransId,omitempty"`
 	Payment *Payment `json:"payment,omitempty"`
 	// CreditCard *CreditCard `json:"payment,omitempty"`
 	// OpaqueData *OpaqueData `json:"payment,omitempty"`
-	AuthCode   string     `json:"authCode,omitempty"`
-	BillTo     *BillTo    `json:"omitempty"`
+	AuthCode string `json:"authCode,omitempty"`
+	BillTo *BillTo `json:"omitempty"`
+	Order *Order `json:"order,omitempty"`
+	LineItems *LineItems `json:"lineItems,omitempty"`
+	Tax *Tax `json:"tax,omitempty"`
+	Shipping *Shipping `json:"shipping,omitempty"`
+	Customer *Customer `json:"customer,omitempty"`
+	ShipTo *Address `json:"shipTo,omitempty"`
 }
 
 type PreviousTransaction struct {
@@ -225,17 +237,17 @@ type LineItems struct {
 }
 
 type LineItem struct {
-	ItemID      string `json:"itemId,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Description string `json:"description,omitempty"`
-	Quantity    string `json:"quantity,omitempty"`
-	UnitPrice   string `json:"unitPrice,omitempty"`
+	ItemID *string `json:"itemId,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Quantity *string `json:"quantity,omitempty"`
+	UnitPrice *string `json:"unitPrice,omitempty"`
 }
 
 type Shipping struct {
-	Amount      string `json:"amount,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Description string `json:"description,omitempty"`
+	Amount      *string `json:"amount,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
 }
 
 type Duty struct {
@@ -245,13 +257,19 @@ type Duty struct {
 }
 
 type Tax struct {
-	Amount      string `json:"amount,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Description string `json:"description,omitempty"`
+	Amount      *string `json:"amount,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+}
+
+type Order struct {
+	InvoiceNumber *string `json:"invoiceNumber,omitempty"`
+	Description *string `json:"description,omitempty"`
 }
 
 type Customer struct {
 	ID          string `json:"id,omitempty"`
+	Type       string `json:"type,omitempty"`
 	Email       string `json:"email,omitempty"`
 	PaymentID   string `json:"paymentId,omitempty"`
 	ShippingID  string `json:"shippingId,omitempty"`
@@ -277,21 +295,25 @@ type UserField struct {
 }
 
 type TransactionRequest struct {
-	TransactionType string     `json:"transactionType,omitempty"`
-	Amount          string     `json:"amount,omitempty"`
-	Payment         *Payment   `json:"payment,omitempty"`
-	RefTransId      string     `json:"refTransId,omitempty"`
-	AuthCode        string     `json:"authCode,omitempty"`
-	Profile         *Profile   `json:"profile,omitempty"`
-	LineItems       *LineItems `json:"lineItems,omitempty"`
-	//Tax                 Tax                 `json:"tax,omitempty"`
+	TransactionType string `json:"transactionType,omitempty"`
+	Amount string `json:"amount,omitempty"`
+	Payment *Payment `json:"payment,omitempty"`
+	RefTransId string `json:"refTransId,omitempty"`
+	AuthCode string `json:"authCode,omitempty"`
+	Profile *Profile `json:"profile,omitempty"`
 	//Duty                Duty                `json:"duty,omitempty"`
-	//Shipping            Shipping            `json:"shipping,omitempty"`
 	//PoNumber            string              `json:"poNumber,omitempty"`
-	//Customer            Customer            `json:"customer,omitempty"`
-	BillTo     *BillTo  `json:"billTo,omitempty"`
-	ShipTo     *Address `json:"shipTo,omitempty"`
-	CustomerIP string   `json:"customerIP,omitempty"`
+
+
+
+	CustomerIP string `json:"customerIP,omitempty"`
+	Order *Order `json:"order,omitempty"`
+	LineItems *LineItems `json:"lineItems,omitempty"`
+	Tax *Tax `json:"tax,omitempty"`
+	Shipping *Shipping `json:"shipping,omitempty"`
+	Customer *Customer `json:"customer,omitempty"`
+	BillTo *BillTo `json:"billTo,omitempty"`
+	ShipTo *Address `json:"shipTo,omitempty"`
 	//TransactionSettings TransactionSettings `json:"transactionSettings,omitempty"`
 	//UserFields          UserFields          `json:"userFields,omitempty"`
 }
