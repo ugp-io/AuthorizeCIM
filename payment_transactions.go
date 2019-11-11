@@ -49,6 +49,14 @@ func (tranx NewTransaction) AuthOnly() (*TransactionResponse, error) {
 		TransactionType: "authOnlyTransaction",
 		Amount:          tranx.Amount,
 		Payment: tranx.Payment,
+		BillTo: tranx.BillTo,
+		Order: tranx.Order,
+		LineItems: tranx.LineItems,
+		Tax: tranx.Tax,
+		Shipping: tranx.Shipping,
+		Customer: tranx.Customer,
+		ShipTo: tranx.ShipTo,
+		AuthCode: tranx.AuthCode,
 		// Payment: &Payment{
 		// 	CreditCard: tranx.CreditCard,
 		// 	OpaqueData: tranx.OpaqueData,
@@ -85,6 +93,7 @@ func (tranx PreviousTransaction) Capture() (*TransactionResponse, error) {
 	var new TransactionRequest
 	new = TransactionRequest{
 		TransactionType: "priorAuthCaptureTransaction",
+		Amount:          tranx.Amount,
 		RefTransId:      tranx.RefId,
 	}
 	response, err := SendTransactionRequest(new)

@@ -22,7 +22,7 @@ func SetAPIInfo(name string, key string, mode string) {
 		testMode = "liveMode"
 		api_endpoint = "https://api.authorize.net/xml/v1/request.api"
 	} else {
-		showLogs = true
+		showLogs = false
 		testMode = "testMode"
 		api_endpoint = "https://apitest.authorize.net/xml/v1/request.api"
 	}
