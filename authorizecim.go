@@ -68,27 +68,48 @@ func (r AVS) Text() string {
 	var response string
 	switch r.avsResultCode {
 	case "E":
-		response = "AVS data provided is invalid or AVS is not allowed for the card type that was used."
+		response = "AVS Error"
 	case "R":
-		response = "The AVS system was unavailable at the time of processing."
+		response = "Retry, System Is Unavailable"
 	case "G":
-		response = "The card issuing bank is of non-U.S. origin and does not support AVS"
+		response = "Non U.S. Card Issuing Bank"
 	case "U":
-		response = "The address information for the cardholder is unavailable."
+		response = "Address Information For This Cardholder Is Unavailable"
 	case "S":
-		response = "The U.S. card issuing bank does not support AVS."
+		response = "AVS Not Supported by Card Issuing Bank"
 	case "N":
-		response = "Address: No Match ZIP Code: No Match"
+		response = "Street Address: No Match - First 5 Digits of ZIP: No Match"
 	case "A":
-		response = "Address: Match ZIP Code: No Match"
+		response = "Street Address: Match - First 5 Digits of ZIP: No Match"
+	case "B":
+		response = "Address not provided for AVS check or street address match, postal code could not be verified"
+	case "P":
+		response = "AVS not applicable for this transaction"
 	case "Z":
-		response = "Address: No Match ZIP Code: Match"
+		response = "Street Address: No Match - First 5 Digits of ZIP: Match"
 	case "W":
-		response = "Address: No Match ZIP Code: Matched 9 digits"
+		response = "Street Address: No Match - All 9 Digits of ZIP: Match"
 	case "X":
-		response = "Address: Match ZIP Code: Matched 9 digits"
+		response = "Street Address: Match - All 9 Digits of ZIP: Match"
 	case "Y":
-		response = "Address: Match ZIP: Matched first 5 digits"
+		response = "Street Address: Match - First 5 Digits of ZIP: Match"
+	}
+	return response
+}
+
+func (r CVV) Text() string {
+	var response string
+	switch r.cvvResultCode {
+	case "N":
+		response = "CVV Does Not Match"
+	case "S":
+		response = "CVV Should be on the card, but is not indicated"
+	case "U":
+		response = "The issuer is not certified for CVV processing or has not provided an encryption key"
+	case "P":
+		response = "CVV Is not processed"
+	case "M":
+		response = "CVV Matched"
 	}
 	return response
 }

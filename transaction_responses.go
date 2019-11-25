@@ -17,7 +17,22 @@ func (transx TransactionResponse) AVS() AVS {
 	return out
 }
 
+func (transx TransactionResponse) CVV() CVV {
+	out := CVV{
+		avsResultCode:  transx.Response.AvsResultCode,
+		cvvResultCode:  transx.Response.CvvResultCode,
+		cavvResultCode: transx.Response.CavvResultCode,
+	}
+	return out
+}
+
 type AVS struct {
+	avsResultCode  string
+	cvvResultCode  string
+	cavvResultCode string
+}
+
+type CVV struct {
 	avsResultCode  string
 	cvvResultCode  string
 	cavvResultCode string
