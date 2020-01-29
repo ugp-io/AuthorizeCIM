@@ -14,6 +14,7 @@ func (tranx NewTransaction) Charge() (*TransactionResponse, error) {
 		// 	OpaqueData: tranx.OpaqueData,
 		// },
 		Payment: tranx.Payment,
+		Retail: tranx.Retail,
 		BillTo: tranx.BillTo,
 		Order: tranx.Order,
 		LineItems: tranx.LineItems,
@@ -49,6 +50,7 @@ func (tranx NewTransaction) AuthOnly() (*TransactionResponse, error) {
 		TransactionType: "authOnlyTransaction",
 		Amount:          tranx.Amount,
 		Payment: tranx.Payment,
+		Retail: tranx.Retail,
 		BillTo: tranx.BillTo,
 		Order: tranx.Order,
 		LineItems: tranx.LineItems,
@@ -155,6 +157,7 @@ type NewTransaction struct {
 	InvoiceId string `json:"invoiceId,omitempty"`
 	RefTransId string `json:"refTransId,omitempty"`
 	Payment *Payment `json:"payment,omitempty"`
+	Retail *Retail `json:"retail,omitempty"`
 	// CreditCard *CreditCard `json:"payment,omitempty"`
 	// OpaqueData *OpaqueData `json:"payment,omitempty"`
 	AuthCode string `json:"authCode,omitempty"`
@@ -228,6 +231,7 @@ type CreateTransactionRequest struct {
 type Payment struct {
 	CreditCard *CreditCard `json:"creditCard,omitempty"`
 	OpaqueData *OpaqueData `json:"opaqueData,omitempty"`
+	TrackData *TrackData `json:"trackData,omitempty"`
 }
 
 type CreditCard struct {
@@ -239,6 +243,14 @@ type CreditCard struct {
 type OpaqueData struct {
 	DataDescriptor     string `json:"dataDescriptor,omitempty"`
 	DataValue     string `json:"dataValue,omitempty"`
+}
+
+type TrackData struct {
+	Track1     string `json:"track1,omitempty"`
+}
+
+type Retail struct {
+	MarketType int `json:"marketType,omitempty"`
 }
 
 type LineItems struct {
@@ -307,6 +319,7 @@ type TransactionRequest struct {
 	TransactionType string `json:"transactionType,omitempty"`
 	Amount string `json:"amount,omitempty"`
 	Payment *Payment `json:"payment,omitempty"`
+	Retail *Retail `json:"retail,omitempty"`
 	RefTransId string `json:"refTransId,omitempty"`
 	AuthCode string `json:"authCode,omitempty"`
 	Profile *Profile `json:"profile,omitempty"`
