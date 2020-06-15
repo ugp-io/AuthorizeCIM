@@ -161,7 +161,7 @@ type NewTransaction struct {
 	// CreditCard *CreditCard `json:"payment,omitempty"`
 	// OpaqueData *OpaqueData `json:"payment,omitempty"`
 	AuthCode string `json:"authCode,omitempty"`
-	BillTo *BillTo `json:"omitempty"`
+	BillTo *BillTo `json:"billTo,omitempty"`
 	Order *Order `json:"order,omitempty"`
 	LineItems *LineItems `json:"lineItems,omitempty"`
 	Tax *Tax `json:"tax,omitempty"`
